@@ -14,3 +14,6 @@ dotnet_style_qualification_for_property = false:none
 
 # IDE0060: Remove unused parameter
 dotnet_code_quality_unused_parameters = non_public:suggestion
+
+# IDE0032: Use auto property
+dotnet_style_prefer_auto_properties = true:none
