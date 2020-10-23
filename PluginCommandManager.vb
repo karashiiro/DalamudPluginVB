@@ -25,14 +25,14 @@ Public Class PluginCommandManager(Of THost)
     End Sub
 
     Private Sub AddCommandHandlers()
-        For i = 0 To Me.pluginCommands.Length
+        For i = 0 To Me.pluginCommands.Length - 1
             Dim cTuple = Me.pluginCommands(i)
             Me.pluginInterface.CommandManager.AddHandler(cTuple.Item1, cTuple.Item2)
         Next
     End Sub
 
     Private Sub RemoveCommandHandlers()
-        For i = 0 To Me.pluginCommands.Length
+        For i = 0 To Me.pluginCommands.Length - 1
             Dim cTuple = Me.pluginCommands(i)
             Me.pluginInterface.CommandManager.RemoveHandler(cTuple.Item1)
         Next
