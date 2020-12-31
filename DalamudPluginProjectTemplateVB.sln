@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DalamudPluginProjectTemplateVB", "DalamudPluginProjectTemplateVB.vbproj", "{8A7A0051-22AE-4AD2-A987-1753E42F924D}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "DalamudPluginProjectTemplateVB", "DalamudPluginProjectTemplateVB.vbproj", "{3E0EC250-78E9-4FFF-B0CC-AD399209674A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8A7A0051-22AE-4AD2-A987-1753E42F924D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A7A0051-22AE-4AD2-A987-1753E42F924D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A7A0051-22AE-4AD2-A987-1753E42F924D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A7A0051-22AE-4AD2-A987-1753E42F924D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0EC250-78E9-4FFF-B0CC-AD399209674A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0EC250-78E9-4FFF-B0CC-AD399209674A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0EC250-78E9-4FFF-B0CC-AD399209674A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0EC250-78E9-4FFF-B0CC-AD399209674A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
