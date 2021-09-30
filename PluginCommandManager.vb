@@ -1,45 +1,44 @@
 ﻿Imports System.Reflection
 Imports Dalamud.Game.Command
-Imports Dalamud.Plugin
 Imports DalamudPluginProjectTemplateVB.Attributes
 
 Public Class PluginCommandManager(Of THost)
     Implements IDisposable
 
-    Private ReadOnly pluginInterface As DalamudPluginInterface
+    Private ReadOnly commandManager As CommandManager
     Private ReadOnly pluginCommands As (String, CommandInfo)()
     Private ReadOnly host As THost
 
-    Sub New(host As THost, pluginInterface As DalamudPluginInterface)
+    Sub New(host As THost, commandManager As CommandManager)
         Me.host = host
-        Me.pluginInterface = pluginInterface
+        Me.commandManager = commandManager
 
         Dim methods As IEnumerable(Of MethodInfo) = host.GetType().GetMethods(BindingFlags.Public Or BindingFlags.NonPublic Or BindingFlags.Static Or BindingFlags.Instance)
-        Me.pluginCommands = methods.Where(Function(method)
-                                              Return Not method.GetCustomAttribute(Of CommandAttribute)() Is Nothing
-                                          End Function).SelectMany(Function(method)
-                                                                       Return GetCommandInfoTuple(method)
-                                                                   End Function).ToArray()
+        pluginCommands = methods.Where(Function(method)
+                                           Return method.GetCustomAttribute(Of CommandAttribute)() IsNot Nothing
+                                       End Function).SelectMany(Function(method)
+                                                                    Return GetCommandInfoTuple(method)
+                                                                End Function).ToArray()
 
         AddCommandHandlers()
     End Sub
 
     Private Sub AddCommandHandlers()
-        For i = 0 To Me.pluginCommands.Length - 1
-            Dim cTuple = Me.pluginCommands(i)
-            Me.pluginInterface.CommandManager.AddHandler(cTuple.Item1, cTuple.Item2)
+        For i = 0 To pluginCommands.Length - 1
+            Dim cTuple = pluginCommands(i)
+            commandManager.AddHandler(cTuple.Item1, cTuple.Item2)
         Next
     End Sub
 
     Private Sub RemoveCommandHandlers()
-        For i = 0 To Me.pluginCommands.Length - 1
-            Dim cTuple = Me.pluginCommands(i)
-            Me.pluginInterface.CommandManager.RemoveHandler(cTuple.Item1)
+        For i = 0 To pluginCommands.Length - 1
+            Dim cTuple = pluginCommands(i)
+            commandManager.RemoveHandler(cTuple.Item1)
         Next
     End Sub
 
     Private Function GetCommandInfoTuple(method As MethodInfo) As IEnumerable(Of (String, CommandInfo))
-        Dim handlerDelegate = [Delegate].CreateDelegate(GetType(CommandInfo.HandlerDelegate), Me.host, method)
+        Dim handlerDelegate = [Delegate].CreateDelegate(GetType(CommandInfo.HandlerDelegate), host, method)
 
         Dim command = handlerDelegate.Method.GetCustomAttribute(Of CommandAttribute)()
         Dim aliases = handlerDelegate.Method.GetCustomAttribute(Of AliasesAttribute)()
@@ -48,13 +47,13 @@ Public Class PluginCommandManager(Of THost)
 
         Dim cInfo = New CommandInfo(handlerDelegate) With {
             .HelpMessage = helpMessage?.HelpMessage,
-            .ShowInHelp = Not doNotShowInHelp Is Nothing
+            .ShowInHelp = doNotShowInHelp IsNot Nothing
         }
         If cInfo.HelpMessage Is Nothing Then cInfo.HelpMessage = ""
 
         ' Create list of tuples that will be filled with one tuple per alias, in addition to the base command tuple.
         Dim commandInfoTuples = New List(Of (String, CommandInfo)) From {(command.Command, cInfo)}
-        If Not aliases Is Nothing Then
+        If aliases IsNot Nothing Then
             For i = 0 To aliases.Aliases.Length
                 commandInfoTuples.Add((aliases.Aliases(i), cInfo))
             Next
@@ -65,5 +64,6 @@ Public Class PluginCommandManager(Of THost)
 
     Public Sub Dispose() Implements IDisposable.Dispose
         RemoveCommandHandlers()
+        GC.SuppressFinalize(Me)
     End Sub
 End Class
