@@ -7,13 +7,13 @@ Public Class Configuration
 
     Public Property Version As Integer Implements IPluginConfiguration.Version
 
-    <JsonIgnore> Private pluginInterface As DalamudPluginInterface
+    <JsonIgnore> Private ReadOnly pluginInterface As DalamudPluginInterface
 
-    Sub Initialize(pi As DalamudPluginInterface)
+    Public Sub New(pi As DalamudPluginInterface)
         pluginInterface = pi
     End Sub
 
-    Sub Save()
+    Public Sub Save()
         pluginInterface.SavePluginConfig(Me)
     End Sub
 End Class
